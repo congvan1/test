@@ -1,0 +1,6 @@
+updatePath:
+  kustomization.yaml:
+    - .images.newTag
+  values.yaml:
+    - .image.tag
+    - .keyclockMigration.image.tag

@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+#namePrefix: sample-service-
+resources:
+  - ../../../base/kustomize
+
+labels:
+  - pairs:
+      app: sample-service
+    includeSelectors: true
+    includeTemplates: true
+
+
+#images:
+#  - name: app
+#    newTag: 1.8.0
+#helmGlobals:
+#  chartHome: ../../../../base/charts
+#helmCharts:
+#  - name: standard-service
+#    releaseName: sample-service
+#    valuesFile: ../../common.values.yaml
+#    additionalValuesFiles:
+#    - values.yaml
+
+
+

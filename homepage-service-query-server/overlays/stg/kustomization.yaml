@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namePrefix: stg-homepage-service-
+
+resources:
+- ../../base
+- app-sealed-secret.yaml
+
+configMapGenerator:
+  - name: app-config
+    behavior: create
+    envs:
+      - app-config.properties
+# https://github.com/kubernetes-sigs/kustomize/issues/702
+# Note QuanTran: This trick would help to redeploy when secret changed
+  - name: shared-sealed-secret-file
+    behavior: create
+    files:
+      - ../../../00-shared-config/overlays/stg/s3-credential-sealed-secret-sample.yaml
+  - name: app-sealed-secret-file
+    behavior: create
+    files:
+      - app-sealed-secret.yaml
+patches:
+  - path: envs-patch.yaml
+    target:
+      kind: Deployment
+      name: app-deployment
+
+images:
+- name: app-image
+  newName: docker-vtvgiaitri.vtvlive.vn/cellutions/seenow/key-service/server
+  newTag: latest
